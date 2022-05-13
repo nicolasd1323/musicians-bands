@@ -14,11 +14,29 @@ describe('Band and Musician Models', () => {
 
     test('can create a Band', async () => {
         // TODO - test creating a band
-        expect('NO TEST').toBe('EXPECTED VALUE HERE');
+        const testBand = await Band.create({name: 'los locos'})
+
+        expect(testBand.name).toBe('los locos');
     })
 
-    test('can create a Musician', async () => {
-        // TODO - test creating a musician
-        expect('NO TEST').toBe('EXPECTED VALUE HERE');
-    })
+  test('can create a Musician', async () => {
+    // TODO - test creating a musician
+    const testMusician = await Musician.create({name: 'nico'})
+        expect(testMusician.name).toBe('nico');
+  })
+  
+  test('Bands can have many musicians', async()=> {
+    let BTS = await Band.create({ name: "perron" })
+    const loco = await Musician.create({name: 'nicolas'})
+    const loco2 = await Musician.create({name: 'Daniel'})
+
+    await BTS.addMusician(loco)
+    await BTS.addMusician(loco2)
+    const musicians = await BTS.getMusicians()
+
+    expect(musicians.length).toBe(2)
+    expect(musicians[0] instanceof Musician).toBeTruthy
+  })
+
+
 })
